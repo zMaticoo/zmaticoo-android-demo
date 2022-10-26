@@ -1,1 +1,1 @@
-# zmaticoo-android-demo
+# zmaticoo-android
