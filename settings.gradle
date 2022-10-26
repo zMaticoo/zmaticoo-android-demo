@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+
+        maven {
+            allowInsecureProtocol = true
+            url 'http://172.30.10.160:8081/nexus/repository/releases'
+        }
+    }
+}
+rootProject.name = "MaticooSDKDemo"
+include ':app'
