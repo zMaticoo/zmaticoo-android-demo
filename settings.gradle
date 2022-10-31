@@ -15,7 +15,11 @@ dependencyResolutionManagement {
             allowInsecureProtocol = true
             url 'http://172.30.10.160:8081/nexus/repository/releases'
         }
+        maven {
+            url 'https://android-sdk.is.com/'
+        }
     }
 }
 rootProject.name = "MaticooSDKDemo"
 include ':app'
+include ':maticoo-adapter-ironsource'
