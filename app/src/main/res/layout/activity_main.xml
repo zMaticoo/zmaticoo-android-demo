@@ -38,34 +38,47 @@
         app:layout_constraintTop_toBottomOf="@id/tv_label">
 
         <Button
-            android:id="@+id/btn_load_and_show_banner"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_load_ad"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Load and show banner ad" />
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Load Reward Ad"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_show_ad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
-            android:id="@+id/btn_load_reward"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_show_ad"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="Load reward ad" />
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Show Reward Ad"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_is_maticoo_ready"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_load_ad" />
 
         <Button
-            android:id="@+id/btn_show_reward"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_is_maticoo_ready"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="Show reward ad" />
-
-        <Button
-            android:id="@+id/btn_load_and_show_interact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Load and show interact ad" />
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Check zMaticoo Ads Ready"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_show_ad" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_info"
@@ -82,6 +95,7 @@
         android:id="@+id/layout_interact_container"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/layout_banner_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
