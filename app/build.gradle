@@ -37,7 +37,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // zmaticoo
-    implementation 'io.github.maticooads:maticoo-android-sdk:1.0.6-ironsource-adapter-test'
+//    implementation files('libs/maticoo-android-sdk.aar')
     // zmaticoo adapter on ironsource
     implementation project(path: ':maticoo-adapter-ironsource')
     // ironsource

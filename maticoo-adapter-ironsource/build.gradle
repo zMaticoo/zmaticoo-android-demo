@@ -27,5 +27,5 @@ android {
 
 dependencies {
     api 'com.ironsource.sdk:mediationsdk:7.2.4'
-    api 'io.github.maticooads:maticoo-android-sdk:1.0.6-ironsource-adapter-test'
+    api files('libs/maticoo-android-sdk.aar')
 }
