@@ -1,8 +1,14 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -10,12 +16,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-
-        maven {
-            allowInsecureProtocol = true
-            url 'http://172.30.10.160:8081/nexus/repository/releases'
-        }
     }
 }
-rootProject.name = "MaticooSDKDemo"
+
+rootProject.name = "zmaticoo-android-demo"
 include ':app'

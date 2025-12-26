@@ -1,17 +1,19 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    alias(libs.plugins.android.application)
 }
 
 android {
-    compileSdk 32
+    namespace 'com.yunce.android'
+    compileSdk 36
 
     defaultConfig {
-        applicationId "com.maticoo.demo"
-        minSdk 21
-        targetSdk 32
+        applicationId "com.yunce.android"
+        minSdk 24
+        targetSdk 36
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -21,20 +23,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation libs.appcompat
+    implementation libs.material
 
-    implementation 'io.github.maticooads:maticoo-android-sdk:1.0.6-snapshot-4'
+    implementation("io.github.maticooads:maticoo-android-sdk:2.0.4.0")
 }
