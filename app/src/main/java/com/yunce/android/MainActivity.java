@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.lang.reflect.Method;
+
 import com.maticoo.sdk.InitConfiguration;
 import com.maticoo.sdk.ad.banner.BannerAd;
 import com.maticoo.sdk.ad.banner.BannerAdListener;
@@ -428,8 +430,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
 
+        // inflate 时根节点传 null，避免 layout 里使用 <merge/> 或 LayoutParams 兼容问题
         ViewGroup nativeAdView = (ViewGroup) LayoutInflater.from(this)
-                .inflate(R.layout.layout_maticoo_native, nativeContainer, false);
+                .inflate(R.layout.layout_maticoo_native, null, false);
 
         nativeContainer.removeAllViews();
         nativeContainer.setVisibility(View.VISIBLE);
@@ -457,9 +460,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         clickableViews.add(tvBody);
 
-        TextView tvAdvertiser = nativeAdView.findViewById(R.id.tv_ad_advertiser);
-        if (!TextUtils.isEmpty(nativeAd.getAdvertiser())) {
-            tvAdvertiser.setText(nativeAd.getAdvertiser());
+        TextView tvSponsored = nativeAdView.findViewById(R.id.tv_ad_sponsored);
+        // 兼容 SDK 版本差异：优先使用 getSponsored()，取不到则回退到 getAdvertiser()
+        String sponsored = null;
+        try {
+            Method m = nativeAd.getClass().getMethod("getSponsored");
+            Object result = m.invoke(nativeAd);
+            if (result instanceof String) {
+                sponsored = (String) result;
+            }
+        } catch (Throwable ignore) {
+            // ignore
+        }
+        if (TextUtils.isEmpty(sponsored)) {
+            sponsored = nativeAd.getAdvertiser();
+        }
+        if (!TextUtils.isEmpty(sponsored)) {
+            tvSponsored.setText(sponsored);
         }
 
         Button btnCallToAction = nativeAdView.findViewById(R.id.btn_ad_action);
@@ -467,6 +484,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnCallToAction.setText(nativeAd.getCallToAction());
         }
         clickableViews.add(btnCallToAction);
+        clickableViews.add(tvSponsored);
 
         MediaView mediaView = nativeAdView.findViewById(R.id.view_media);
         AdChoicesView adChoicesView = nativeAdView.findViewById(R.id.ad_choices_view);
