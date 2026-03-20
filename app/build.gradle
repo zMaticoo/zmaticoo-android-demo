@@ -33,5 +33,5 @@ dependencies {
     implementation libs.appcompat
     implementation libs.material
 
-    implementation("io.github.maticooads:maticoo-android-sdk:2.0.4.0")
+    implementation("io.github.maticooads:maticoo-android-sdk:2.0.5.0")
 }

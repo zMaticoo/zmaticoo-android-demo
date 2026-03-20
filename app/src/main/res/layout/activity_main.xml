@@ -354,6 +354,62 @@
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Native"
+                                android:textColor="?android:attr/textColorPrimary"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/loadNative"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Load"
+                                    android:textColor="@color/white" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/nativeStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:textSize="14sp" />
+
+                            <FrameLayout
+                                android:id="@+id/native_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
