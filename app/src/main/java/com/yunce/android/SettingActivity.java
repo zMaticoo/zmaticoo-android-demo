@@ -10,14 +10,19 @@ import com.maticoo.sdk.core.MaticooAds;
 
 public class SettingActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
         SwitchCompat switchGdpr = findViewById(R.id.switchGdpr);
-        switchGdpr.setChecked(MaticooAds.isGDPRConsent());
+        boolean gdprConsent = true;
+        try {
+            gdprConsent = MaticooAds.isGDPRConsent();
+        } catch (Throwable ignore) {
+        }
+
+        switchGdpr.setChecked(gdprConsent);
         switchGdpr.setOnCheckedChangeListener((compoundButton, isChecked) -> MaticooAds.setGDPRConsent(isChecked));
     }
 }

@@ -18,8 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.lang.reflect.Method;
-
 import com.maticoo.sdk.InitConfiguration;
 import com.maticoo.sdk.ad.banner.BannerAd;
 import com.maticoo.sdk.ad.banner.BannerAdListener;
@@ -132,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void initSDK() {
+        applyPrivacySettingsBeforeInit();
         InitConfiguration configuration = new InitConfiguration.Builder()
                 .appKey(YOUR_SDK_KEY)
                 .logLevel(ZmaticooLog.LogLevel.DEVELOP)
@@ -148,6 +147,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "SDK Init Error: " + result.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void applyPrivacySettingsBeforeInit() {
+        boolean gdprConsent = true;
+        gdprConsent = MaticooAds.isGDPRConsent();
+
+        // GDPR: required before MaticooAds.init(...)
+        MaticooAds.setGDPRConsent(gdprConsent);
+
+        // CCPA & COPPA: hardcode defaults (0) before init
+        MaticooAds.setDoNotTrackStatus(this, 0);
+        MaticooAds.setCoppa(this, 0);
     }
 
     private void loadBanner() {
@@ -323,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadNative() {
-        // 清理旧广告
+        // Clear old native ad
         if (nativeContainer != null) {
             nativeContainer.removeAllViews();
             nativeContainer.setVisibility(View.GONE);
@@ -403,13 +414,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        // 视频回调
+        // Video lifecycle callbacks
         if (nativeAd.getMediaContent() != null && nativeAd.getMediaContent().hasVideoContent()) {
             VideoController controller = nativeAd.getMediaContent().getVideoController();
             controller.setVideoLifecycleCallbacks(new VideoLifecycleCallbacks() {
                 @Override
                 public void onVideoStart() {
-                    // 视频开始
+                    // Video started
                 }
 
                 @Override
@@ -430,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
 
-        // inflate 时根节点传 null，避免 layout 里使用 <merge/> 或 LayoutParams 兼容问题
+        // Inflate with null root to avoid issues with <merge/> or LayoutParams compatibility.
         ViewGroup nativeAdView = (ViewGroup) LayoutInflater.from(this)
                 .inflate(R.layout.layout_maticoo_native, null, false);
 
@@ -439,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nativeContainer.addView(nativeAdView,
                 new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        // 可点击视图
+        // Clickable views
         java.util.List<View> clickableViews = new java.util.ArrayList<>();
 
         ImageView ivIcon = nativeAdView.findViewById(R.id.iv_ad_icon);
@@ -461,22 +472,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         clickableViews.add(tvBody);
 
         TextView tvSponsored = nativeAdView.findViewById(R.id.tv_ad_sponsored);
-        // 兼容 SDK 版本差异：优先使用 getSponsored()，取不到则回退到 getAdvertiser()
-        String sponsored = null;
-        try {
-            Method m = nativeAd.getClass().getMethod("getSponsored");
-            Object result = m.invoke(nativeAd);
-            if (result instanceof String) {
-                sponsored = (String) result;
-            }
-        } catch (Throwable ignore) {
-            // ignore
-        }
-        if (TextUtils.isEmpty(sponsored)) {
-            sponsored = nativeAd.getAdvertiser();
-        }
-        if (!TextUtils.isEmpty(sponsored)) {
-            tvSponsored.setText(sponsored);
+        // Use advertiser as sponsored text (SDK provides getAdvertiser()).
+        if (!TextUtils.isEmpty(nativeAd.getAdvertiser())) {
+            tvSponsored.setText(nativeAd.getAdvertiser());
         }
 
         Button btnCallToAction = nativeAdView.findViewById(R.id.btn_ad_action);
@@ -490,9 +488,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AdChoicesView adChoicesView = nativeAdView.findViewById(R.id.ad_choices_view);
         adChoicesView.setNativeAd(nativeAd);
 
-        // 绑定视图
+        // Bind views
         nativeAd.bindViews(nativeAdView, mediaView, clickableViews);
     }
+
     private void showLoadingPopup() {
         loadingPopup = new LoadingAdPop(this);
         loadingPopup.showAdPop(getWindow().getDecorView());
