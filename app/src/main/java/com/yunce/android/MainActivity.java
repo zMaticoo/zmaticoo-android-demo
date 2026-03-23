@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nativeContainer = findViewById(R.id.native_container);
         nativeStatus = findViewById(R.id.nativeStatus);
         findViewById(R.id.loadNative).setOnClickListener(this);
+        findViewById(R.id.openNativeList).setOnClickListener(this);
     }
 
     @Override
@@ -125,12 +126,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, SettingActivity.class));
         } else if (view.getId() == R.id.loadNative) {
             loadNative();
+        } else if (view.getId() == R.id.openNativeList) {
+            startActivity(new Intent(this, NativeListActivity.class));
         }
     }
 
 
     public void initSDK() {
-        applyPrivacySettingsBeforeInit();
         InitConfiguration configuration = new InitConfiguration.Builder()
                 .appKey(YOUR_SDK_KEY)
                 .logLevel(ZmaticooLog.LogLevel.DEVELOP)
@@ -147,18 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "SDK Init Error: " + result.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void applyPrivacySettingsBeforeInit() {
-        boolean gdprConsent = true;
-        gdprConsent = MaticooAds.isGDPRConsent();
-
-        // GDPR: required before MaticooAds.init(...)
-        MaticooAds.setGDPRConsent(gdprConsent);
-
-        // CCPA & COPPA: hardcode defaults (0) before init
-        MaticooAds.setDoNotTrackStatus(this, 0);
-        MaticooAds.setCoppa(this, 0);
     }
 
     private void loadBanner() {

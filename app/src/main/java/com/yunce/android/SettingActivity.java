@@ -16,13 +16,20 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         SwitchCompat switchGdpr = findViewById(R.id.switchGdpr);
-        boolean gdprConsent = true;
-        try {
-            gdprConsent = MaticooAds.isGDPRConsent();
-        } catch (Throwable ignore) {
-        }
 
-        switchGdpr.setChecked(gdprConsent);
-        switchGdpr.setOnCheckedChangeListener((compoundButton, isChecked) -> MaticooAds.setGDPRConsent(isChecked));
+        switchGdpr.setChecked(MaticooAds.isGDPRConsent());
+        switchGdpr.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+//            MaticooAds.setConsentStatus(this, isChecked ? 1 : 0);
+        });
+
+        SwitchCompat switchDoNotStatus = findViewById(R.id.switchDoNotStatus);
+        switchDoNotStatus.setChecked(MaticooAds.isDoNotTrackStatus());
+//        switchDoNotStatus.setOnCheckedChangeListener((compoundButton, isChecked) -> MaticooAds.setDoNotTrackStatus(this, isChecked ? CommonConstants.DNT_ON_VALUE : CommonConstants.DNT_OFF_VALUE));
+
+        SwitchCompat switchCoppaStatus = findViewById(R.id.switchCoppaStatus);
+//        switchCoppaStatus.setChecked(SDKAuthorityController.getInstance().getCoppa() == CommonConstants.COPPA_ON_VALUE);
+//        switchCoppaStatus.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+////            MaticooAds.setCoppa(this, isChecked ? CommonConstants.COPPA_ON_VALUE : CommonConstants.COPPA_OFF_VALUE);
+//        });
     }
 }

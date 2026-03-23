@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rect_border_gray_8dp"
+    android:minHeight="240dp"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_ad_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Loading native ad..."
+        android:textColor="#666666"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/native_ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</FrameLayout>
+
