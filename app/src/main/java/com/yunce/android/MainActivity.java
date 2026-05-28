@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String YOUR_SDK_KEY = "a612f6f97402f33d844f7926016c69d14b3a5ffa9afb6f1e8979b61bdcc5f7b2";
     // If you want to test your own banner, change the value here
     private static final String BANNER_AD_UNIT_ID = "1004207889";
-    private static final String INTERSTITIAL_AD_UNIT_ID = "1004273195";
+    private static final String INTERSTITIAL_AD_UNIT_ID = "1004273309";
     private static final String REWARD_AD_UNIT_ID = "1004273329";
-    private static final String NATIVE_AD_UNIT_ID = "1004442727";
+    private static final String NATIVE_AD_UNIT_ID = "1004442676";
 
     private LoadingAdPop loadingPopup;
     private BannerAd bannerAd;
@@ -71,6 +72,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView nativeStatus;
 
     private Handler handler = new Handler(Looper.getMainLooper());
+
+    private void logAndToast(String scene, String event) {
+        String message = scene + " " + event;
+        Log.d(TAG, message);
+        handler.post(() -> Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show());
+    }
+
+    private String safeAdId(MaticooIds adId) {
+        return adId == null ? "null" : adId.toString();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onBannerAdReady(MaticooIds maticooIds, View view) {
                     super.onBannerAdReady(maticooIds, view);
+                    logAndToast("Banner", "onBannerAdReady: " + safeAdId(maticooIds));
                     handler.post(() -> {
 
                         bannerStatus.setText("load success");
@@ -172,32 +184,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onBannerAdFailed(MaticooIds maticooIds, ComponentError componentError) {
                     super.onBannerAdFailed(maticooIds, componentError);
+                    logAndToast("Banner", "onBannerAdFailed: " + componentError);
                     handler.post(() -> bannerStatus.setText("load failed " + componentError.toString()));
                 }
 
                 @Override
                 public void onBannerAdClicked(MaticooIds maticooIds) {
                     super.onBannerAdClicked(maticooIds);
+                    logAndToast("Banner", "onBannerAdClicked: " + safeAdId(maticooIds));
                 }
 
                 @Override
                 public void onBannerAdShow(MaticooIds maticooIds) {
                     super.onBannerAdShow(maticooIds);
+                    logAndToast("Banner", "onBannerAdShow: " + safeAdId(maticooIds));
                 }
 
                 @Override
                 public void onBannerAdShowFailed(MaticooIds maticooIds, ComponentError componentError) {
                     super.onBannerAdShowFailed(maticooIds, componentError);
+                    logAndToast("Banner", "onBannerAdShowFailed: " + componentError);
                 }
 
                 @Override
                 public void onBannerAdClosed(MaticooIds maticooIds) {
                     super.onBannerAdClosed(maticooIds);
+                    logAndToast("Banner", "onBannerAdClosed: " + safeAdId(maticooIds));
                 }
 
                 @Override
                 public void onBannerAdLeaveApp(MaticooIds maticooIds) {
                     super.onBannerAdLeaveApp(maticooIds);
+                    logAndToast("Banner", "onBannerAdLeaveApp: " + safeAdId(maticooIds));
                 }
             });
         }
@@ -212,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         InterstitialAd.setAdListener(INTERSTITIAL_AD_UNIT_ID, new InterstitialAdListener() {
             @Override
             public void onAdLoadSuccess(MaticooIds maticooIds) {
+                logAndToast("Interstitial", "onAdLoadSuccess: " + safeAdId(maticooIds));
                 handler.post(() -> {
                     hideLoadingPopup();
                     btnInterstitialShow.setEnabled(true);
@@ -220,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onAdLoadFailed(MaticooIds maticooIds, ComponentError componentError) {
+                logAndToast("Interstitial", "onAdLoadFailed: " + componentError);
                 handler.post(() -> {
                     hideLoadingPopup();
                     interstitialStatus.setText("load failed " + componentError.toString());
@@ -228,30 +248,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onAdDisplayed(MaticooIds maticooIds) {
+                logAndToast("Interstitial", "onAdDisplayed: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onAdDisplayFailed(MaticooIds maticooIds, ComponentError componentError) {
+                logAndToast("Interstitial", "onAdDisplayFailed: " + componentError);
             }
 
             @Override
             public void onAdClicked(MaticooIds maticooIds) {
+                logAndToast("Interstitial", "onAdClicked: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onAdClosed(MaticooIds maticooIds) {
+                logAndToast("Interstitial", "onAdClosed: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onAdStart(MaticooIds maticooIds) {
+                logAndToast("Interstitial", "onAdStart: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onAdSkip(MaticooIds maticooIds) {
+                logAndToast("Interstitial", "onAdSkip: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onEndCardShow(MaticooIds maticooIds) {
+                logAndToast("Interstitial", "onEndCardShow: " + safeAdId(maticooIds));
             }
         });
         InterstitialAd.loadAd(INTERSTITIAL_AD_UNIT_ID);
@@ -266,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RewardedVideoAd.setAdListener(REWARD_AD_UNIT_ID, new RewardedVideoListener() {
             @Override
             public void onRewardedVideoAdLoadSuccess(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedVideoAdLoadSuccess: " + safeAdId(maticooIds));
                 handler.post(() -> {
                     hideLoadingPopup();
                     btnRewardShow.setEnabled(true);
@@ -274,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onRewardedVideoAdLoadFailed(MaticooIds maticooIds, ComponentError componentError) {
+                logAndToast("Rewarded", "onRewardedVideoAdLoadFailed: " + componentError);
                 handler.post(() -> {
                     hideLoadingPopup();
                     rewardStatus.setText("load failed " + componentError.toString());
@@ -282,38 +311,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onRewardedVideoAdShowed(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedVideoAdShowed: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onRewardedVideoAdShowFailed(MaticooIds maticooIds, ComponentError componentError) {
+                logAndToast("Rewarded", "onRewardedVideoAdShowFailed: " + componentError);
             }
 
             @Override
             public void onRewardedVideoAdStarted(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedVideoAdStarted: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onRewardedVideoAdCompleted(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedVideoAdCompleted: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onRewardedVideoAdRewarded(MaticooIds maticooIds, MaticooRewardInfo maticooRewardInfo) {
+                logAndToast("Rewarded", "onRewardedVideoAdRewarded: " + safeAdId(maticooIds) + ", reward=" + maticooRewardInfo);
             }
 
             @Override
             public void onRewardedVideoAdClicked(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedVideoAdClicked: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onRewardedVideoAdClosed(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedVideoAdClosed: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onRewardedAdSkip(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedAdSkip: " + safeAdId(maticooIds));
             }
 
             @Override
             public void onRewardedEndCardShow(MaticooIds maticooIds) {
+                logAndToast("Rewarded", "onRewardedEndCardShow: " + safeAdId(maticooIds));
             }
         });
         RewardedVideoAd.loadAd(REWARD_AD_UNIT_ID);
@@ -353,6 +391,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onAdLoaded(MaticooIds adId, @NonNull NativeAd ad) {
                         super.onAdLoaded(adId, ad);
+                        logAndToast("Native", "onAdLoaded: " + safeAdId(adId));
                         handler.post(() -> {
                             nativeStatus.setText("load success");
 //                            ZmaticooLog.d(TAG, "Native ad loaded: " + adId);
@@ -365,6 +404,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onAdFailedToLoad(MaticooIds adId, @NonNull ComponentError error) {
                         super.onAdFailedToLoad(adId, error);
+                        logAndToast("Native", "onAdFailedToLoad: " + error);
                         handler.post(() -> {
                             nativeStatus.setText("load failed " + error.toString());
 //                            ZmaticooLog.d(TAG, "Native ad load failed: " + error);
@@ -375,19 +415,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onAdClicked(MaticooIds adId) {
                         super.onAdClicked(adId);
+                        logAndToast("Native", "onAdClicked: " + safeAdId(adId));
 //                        ZmaticooLog.d(TAG, "Native ad clicked: " + adId);
-                        Toast.makeText(MainActivity.this, "Native clicked", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onAdDisplayed(MaticooIds adId) {
                         super.onAdDisplayed(adId);
+                        logAndToast("Native", "onAdDisplayed: " + safeAdId(adId));
 //                        ZmaticooLog.d(TAG, "Native ad displayed: " + adId);
                     }
 
                     @Override
                     public void onAdDisplayFailed(MaticooIds adId, ComponentError error) {
                         super.onAdDisplayFailed(adId, error);
+                        logAndToast("Native", "onAdDisplayFailed: " + error);
                         handler.post(() -> {
                             nativeStatus.setText("show failed " + error.toString());
 //                            ZmaticooLog.d(TAG, "Native ad display failed: " + error);

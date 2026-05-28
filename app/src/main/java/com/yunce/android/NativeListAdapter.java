@@ -115,7 +115,7 @@ public class NativeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NormalViewHolder) {
             int normalIndex = getNormalIndexForPosition(position);
-            ((NormalViewHolder) holder).tvNormalIndex.setText(String.valueOf(normalIndex + 1));
+            ((NormalViewHolder) holder).tvNormalIndex.setText("item-" + (normalIndex + 1));
             return;
         }
         if (holder instanceof NativeAdViewHolder) {
