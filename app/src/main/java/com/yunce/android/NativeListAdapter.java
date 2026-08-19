@@ -182,7 +182,6 @@ public class NativeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         void loadNativeAd(int adSlotIndex) {
             cleanup();
-
             nativeAdContainer.removeAllViews();
             nativeAdContainer.setVisibility(View.GONE);
             tvLoading.setText("Loading native ad...");
