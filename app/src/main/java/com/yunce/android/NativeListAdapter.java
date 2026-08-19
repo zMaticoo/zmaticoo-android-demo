@@ -223,7 +223,7 @@ public class NativeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 if (token != requestToken) {
                                     return;
                                 }
-                                tvLoading.setText("Native ad load failed");
+                                tvLoading.setText("Native ad load failed"+error.toString());
                                 nativeLoader = null;
                             });
                         }

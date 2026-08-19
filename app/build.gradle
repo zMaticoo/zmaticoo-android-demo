@@ -11,7 +11,7 @@ android {
         minSdk 24
         targetSdk 36
         versionCode 1
-        versionName "1.0"
+        versionName "2.0.7.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,5 +34,5 @@ dependencies {
     implementation libs.material
     implementation libs.swiperefreshlayout
 
-    implementation 'io.github.maticooads:maticoo-android-sdk:2.0.6.0'
+    implementation 'io.github.maticooads:maticoo-android-sdk:2.0.7.0'
 }
